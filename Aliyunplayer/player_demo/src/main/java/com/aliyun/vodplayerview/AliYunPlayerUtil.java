@@ -84,7 +84,7 @@ public class AliYunPlayerUtil {
 
     /**
      * 设置音量
-     *
+     * <p>
      * float 表示音量的大小 从0到-1
      */
     public void setVolum(AliPlayer mAliPlayer, float v) {
@@ -143,6 +143,22 @@ public class AliYunPlayerUtil {
     }
 
     /**
+     * 开始下载，该方法包含了一个回调，调用该回调，可以对
+     * 下载进度进行监听
+     *
+     * @param mContext
+     * @param downloadDir
+     * @param listener
+     */
+    public void startDownLoadWithListener(Context mContext, String downloadDir, AliMediaDownloader.OnProgressListener listener) {
+        final AliMediaDownloader jniDownloader = AliDownloaderFactory.create(mContext);
+        jniDownloader.setSaveDir(downloadDir);
+        jniDownloader.start();
+        if (listener != null)
+            jniDownloader.setOnProgressListener(listener);
+    }
+
+    /**
      * 文件加密
      *
      * @param context
@@ -155,11 +171,12 @@ public class AliYunPlayerUtil {
     /**
      * 是否循环播放
      */
-    public void setLoop(AliPlayer mAliPlayer,boolean loop){
-        if(mAliPlayer != null){
+    public void setLoop(AliPlayer mAliPlayer, boolean loop) {
+        if (mAliPlayer != null) {
             mAliPlayer.setLoop(loop);
         }
     }
+
     /**
      * 删除下载的文件
      * vid 和 format 是下载后就要有的
@@ -172,6 +189,15 @@ public class AliYunPlayerUtil {
     public int deleteFile(String saveDir, String vid, String format, int index) {
         int ret = AliDownloaderFactory.deleteFile(saveDir, vid, format, index);
         return ret;
+    }
+
+    /**
+     * 删除文件  这个是删除正在下载的文件
+     * @param downloader
+     */
+    public void delectFile(AliMediaDownloader downloader) {
+        if (null != downloader)
+            downloader.deleteFile();
     }
 
 
@@ -225,7 +251,7 @@ public class AliYunPlayerUtil {
     /**
      * 切换播放资源(也就是播放下一集),播放的时候需要当前的播放器对象、和当前的
      * 某一集的对象，这个对象是播放列表资源里面的具体的某一个 可以在一个list（播放资源列表）里面
-     * 通过position去获取，如果传的videoListItem和当前播放的一直，则会重播
+     * 通过position去获取，如果传的videoListItem和当前播放的一样，就是重播
      */
     public void changePlayVidSource(AliyunVodPlayerView mAliyunVodPlayerView, @NonNull AlivcVideoInfo.DataBean.VideoListBean videoListItem) {
         if (mAliyunVodPlayerView != null) {
