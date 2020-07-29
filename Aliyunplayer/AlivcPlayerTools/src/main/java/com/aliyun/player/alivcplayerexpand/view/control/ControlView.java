@@ -541,9 +541,9 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
         updateInputDanmakuView();
         updateDotView();
         if (mode == AliyunScreenMode.Full) {
-//            updateTrackInfoView();
-            AliYunPlayerUtil util =new AliYunPlayerUtil(getContext());
-            util.setScreenFull(AliyunScreenMode.Full);
+            updateTrackInfoView();
+//            AliYunPlayerUtil util =new AliYunPlayerUtil(getContext());
+//            util.setScreenFull(AliyunScreenMode.Full);
 
         }
     }
