@@ -1,0 +1,37 @@
+-- Merging decision tree log ---
+manifest
+ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:2:1-14:12
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:2:1-14:12
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:2:1-14:12
+	package
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:3:5-49
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:6:5-12:19
+activity#com.aliyun.player.aliyunlistplayer.AliyunListPlayerActivity
+ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:7:9-11:25
+	android:screenOrientation
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:9:13-49
+	android:configChanges
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:8:13-74
+	android:theme
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:10:13-63
+	android:name
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml:7:19-59
+uses-sdk
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+		ADDED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunListPlayer\src\main\AndroidManifest.xml

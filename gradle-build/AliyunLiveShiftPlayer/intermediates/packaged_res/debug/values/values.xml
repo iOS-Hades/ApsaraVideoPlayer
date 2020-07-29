@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="alivc_blue">#379DF2</color>
+    <color name="alivc_white">#e7e7e7</color>
+    <dimen name="alivc_info_seekbar_height">3dp</dimen>
+    <dimen name="alivc_info_seekbar_offset">8dp</dimen>
+    <string name="alivc_brightness">brightness</string>
+    <string name="alivc_control"> control</string>
+    <string name="alivc_left_side">left side</string>
+    <string name="alivc_progress">progress</string>
+    <string name="alivc_right_side">right side</string>
+    <string name="alivc_volume">volume</string>
+    <string name="app_name">AliyunLiveShiftPlayer</string>
+    <style name="alivc_info_seekbar" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:maxHeight">@dimen/alivc_info_seekbar_height</item>
+        <item name="android:minHeight">@dimen/alivc_info_seekbar_height</item>
+        <item name="android:paddingLeft">@dimen/alivc_info_seekbar_offset</item>
+        <item name="android:paddingRight">@dimen/alivc_info_seekbar_offset</item>
+        <item name="android:thumbOffset">@dimen/alivc_info_seekbar_offset</item>
+    </style>
+</resources>

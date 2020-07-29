@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml:1:1-2:52
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml:1:1-2:52
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml:1:1-2:52
+	package
+		ADDED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml:2:5-49
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml:1:11-69
+uses-sdk
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+		ADDED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+		ADDED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
+		INJECTED from G:\ApsaraVideoPlayer\AliyunPlayerBase\src\main\AndroidManifest.xml
