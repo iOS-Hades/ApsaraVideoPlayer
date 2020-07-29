@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AliyunLiveShiftPlayer</string>
+
+    <string name="alivc_left_side">left side</string>
+    <string name="alivc_brightness">brightness</string>
+    <string name="alivc_control">&#160;control</string>
+    <string name="alivc_progress">progress</string>
+    <string name="alivc_right_side">right side</string>
+    <string name="alivc_volume">volume</string>
+</resources>

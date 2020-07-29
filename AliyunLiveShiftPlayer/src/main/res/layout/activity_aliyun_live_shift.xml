@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.aliyun.ui.view.AliyunLiveShiftPlayerView
+        android:id="@+id/live_shift_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </com.aliyun.ui.view.AliyunLiveShiftPlayerView>
+
+    <TextView
+        android:id="@+id/live_shift_player_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/alivc_common_margin_20"
+        android:textColor="@color/alivc_common_white"
+        android:textSize="@dimen/alivc_common_font_18" />
+
+</LinearLayout>
