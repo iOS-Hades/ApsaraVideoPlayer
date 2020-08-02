@@ -258,6 +258,7 @@ public class AliyunRenderView extends FrameLayout {
     public void selectTrack(int index) {
         if(mAliPlayer != null){
             mAliPlayer.selectTrack(index);
+//            aliYunPlayerUtil.selectTrack(mAliPlayer, index,null );
         }
     }
 

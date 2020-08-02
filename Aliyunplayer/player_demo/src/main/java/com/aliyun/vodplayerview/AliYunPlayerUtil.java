@@ -2,8 +2,10 @@ package com.aliyun.vodplayerview;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -16,7 +18,10 @@ import com.aliyun.player.VidPlayerConfigGen;
 import com.aliyun.player.alivcplayerexpand.constants.GlobalPlayerConfig;
 import com.aliyun.player.alivcplayerexpand.playlist.AlivcVideoInfo;
 import com.aliyun.player.alivcplayerexpand.widget.AliyunVodPlayerView;
+import com.aliyun.player.aliyunplayerbase.bean.AliyunMps;
 import com.aliyun.player.aliyunplayerbase.bean.AliyunPlayAuth;
+import com.aliyun.player.aliyunplayerbase.bean.AliyunSts;
+import com.aliyun.player.aliyunplayerbase.bean.AliyunVideoList;
 import com.aliyun.player.aliyunplayerbase.net.GetAuthInformation;
 import com.aliyun.player.aliyunplayerbase.net.ServiceCommon;
 import com.aliyun.player.aliyunplayerbase.util.AliyunScreenMode;
@@ -26,6 +31,8 @@ import com.aliyun.player.source.VidSts;
 import com.aliyun.private_service.PrivateService;
 import com.aliyun.svideo.common.okhttp.AlivcOkHttpClient;
 import com.aliyun.svideo.common.utils.FileUtils;
+import com.aliyun.svideo.common.utils.ToastUtils;
+import com.aliyun.vodplayerview.activity.AliyunPlayerSettingActivity;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -48,7 +55,179 @@ public class AliYunPlayerUtil {
 
     public AliPlayer initPlayer() {
         AliPlayer mAliPlayer = AliPlayerFactory.createAliPlayer(context.getApplicationContext());
+
         return mAliPlayer;
+    }
+
+
+    /**
+     * 根据指定的类型播放
+     *
+     * @param activity 当前activity
+     * @param playtype GlobalPlayerConfig.PLAYTYPE里面的类型
+     *                 playtype可取值为DEFAULT、URL、STS、MPS、AUTH、LIVE_STS几种播放模式
+     * @param url      url是播放源，如果不为空就播放指定的源，为空则默认阿里的demo源
+     */
+    public void start2PlayByType(final Activity activity, GlobalPlayerConfig.PLAYTYPE playtype, String url) {
+        if (null != url)
+            ServiceCommon.GET_VIDEO_PLAY_INFO = url;
+        GlobalPlayerConfig.mCurrentPlayType = playtype;
+        GetAuthInformation getAuthInformation = new GetAuthInformation();
+        if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.URL) {
+            getAuthInformation.getVideoPlayUrlInfo(new GetAuthInformation.OnGetUrlInfoListener() {
+                @Override
+                public void onGetUrlError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetUrlSuccess(AliyunVideoList.VideoList dataBean) {
+                    if (dataBean != null) {
+                        List<AliyunVideoList.VideoList.VideoListItem> playInfoList = dataBean.getPlayInfoList();
+                        if (playInfoList != null && playInfoList.size() > 0) {
+                            AliyunVideoList.VideoList.VideoListItem videoListItem = playInfoList.get(0);
+                            GlobalPlayerConfig.mUrlPath = videoListItem.getPlayURL();
+                            startPlay(activity);
+                        }
+                    }
+                }
+            });
+
+        } else if ((GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.STS)) {
+            getAuthInformation.getVideoPlayStsInfo(new GetAuthInformation.OnGetStsInfoListener() {
+                @Override
+                public void onGetStsError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetStsSuccess(AliyunSts.StsBean dataBean) {
+                    if (dataBean != null) {
+                        GlobalPlayerConfig.mVid = dataBean.getVideoId();
+                        GlobalPlayerConfig.mStsAccessKeyId = dataBean.getAccessKeyId();
+                        GlobalPlayerConfig.mStsSecurityToken = dataBean.getSecurityToken();
+                        GlobalPlayerConfig.mStsAccessKeySecret = dataBean.getAccessKeySecret();
+                        startPlay(activity);
+                    }
+                }
+            });
+
+        } else if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.AUTH) {
+
+            getAuthInformation.getVideoPlayAuthInfo(new GetAuthInformation.OnGetPlayAuthInfoListener() {
+
+                @Override
+                public void onGetPlayAuthError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetPlayAuthSuccess(AliyunPlayAuth.PlayAuthBean dataBean) {
+                    if (dataBean != null) {
+                        GlobalPlayerConfig.mVid = dataBean.getVideoMeta().getVideoId();
+                        GlobalPlayerConfig.mPlayAuth = dataBean.getPlayAuth();
+                        startPlay(activity);
+                    }
+                }
+            });
+
+        } else if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.MPS) {
+
+            getAuthInformation.getVideoPlayMpsInfo(new GetAuthInformation.OnGetMpsInfoListener() {
+                @Override
+                public void onGetMpsError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetMpsSuccess(AliyunMps.MpsBean dataBean) {
+                    if (dataBean != null) {
+                        GlobalPlayerConfig.mVid = dataBean.getMediaId();
+                        GlobalPlayerConfig.mMpsRegion = dataBean.getRegionId();
+                        GlobalPlayerConfig.mMpsAuthInfo = dataBean.getAuthInfo();
+                        GlobalPlayerConfig.mMpsHlsUriToken = dataBean.getHlsUriToken();
+                        GlobalPlayerConfig.mMpsAccessKeyId = dataBean.getAkInfo().getAccessKeyId();
+                        GlobalPlayerConfig.mMpsSecurityToken = dataBean.getAkInfo().getSecurityToken();
+                        GlobalPlayerConfig.mMpsAccessKeySecret = dataBean.getAkInfo().getAccessKeySecret();
+                        startPlay(activity);
+                    }
+                }
+            });
+
+        } else if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.LIVE_STS) {
+            getAuthInformation.getVideoPlayStsInfo(new GetAuthInformation.OnGetStsInfoListener() {
+                @Override
+                public void onGetStsError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetStsSuccess(AliyunSts.StsBean dataBean) {
+                    if (dataBean != null) {
+                        GlobalPlayerConfig.mStsAccessKeyId = dataBean.getAccessKeyId();
+                        GlobalPlayerConfig.mStsSecurityToken = dataBean.getSecurityToken();
+                        GlobalPlayerConfig.mStsAccessKeySecret = dataBean.getAccessKeySecret();
+                        startPlay(activity);
+                    }
+                }
+            });
+        } else if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.DEFAULT) {
+            getAuthInformation.getVideoPlayStsInfo(new GetAuthInformation.OnGetStsInfoListener() {
+                @Override
+                public void onGetStsError(String msg) {
+                    ToastUtils.show(activity, msg);
+                }
+
+                @Override
+                public void onGetStsSuccess(AliyunSts.StsBean dataBean) {
+                    if (dataBean != null) {
+                        GlobalPlayerConfig.mVid = "";
+                        GlobalPlayerConfig.mStsAccessKeyId = dataBean.getAccessKeyId();
+                        GlobalPlayerConfig.mStsSecurityToken = dataBean.getSecurityToken();
+                        GlobalPlayerConfig.mStsAccessKeySecret = dataBean.getAccessKeySecret();
+                        startPlay(activity);
+                    }
+                }
+            });
+        } else {
+            startPlay(activity);
+        }
+
+    }
+
+    private void startPlay(Activity activity) {
+        Intent intent = new Intent(activity, AliyunPlayerSettingActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 跳转到默认的播放页面
+     *
+     * @param activity
+     */
+    public void start2DefaultPlay(@NonNull final Activity activity) {
+        GetAuthInformation getAuthInformation = new GetAuthInformation();//转圈
+        getAuthInformation.getVideoPlayUrlInfo(new GetAuthInformation.OnGetUrlInfoListener() {
+            @Override
+            public void onGetUrlError(String msg) {
+                ToastUtils.show(activity, msg);
+            }
+
+            @Override
+            public void onGetUrlSuccess(AliyunVideoList.VideoList dataBean) {
+                if (dataBean != null) {
+                    List<AliyunVideoList.VideoList.VideoListItem> playInfoList = dataBean.getPlayInfoList();
+                    if (playInfoList != null && playInfoList.size() > 0) {
+                        AliyunVideoList.VideoList.VideoListItem videoListItem = playInfoList.get(0);
+                        GlobalPlayerConfig.mUrlPath = videoListItem.getPlayURL();
+                        Intent intent = new Intent(activity, AliyunPlayerSettingActivity.class);
+                        activity.startActivity(intent);
+                    }
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -84,7 +263,6 @@ public class AliYunPlayerUtil {
 
     /**
      * 设置音量
-     * <p>
      * float 表示音量的大小 从0到-1
      */
     public void setVolum(AliPlayer mAliPlayer, float v) {
@@ -99,7 +277,6 @@ public class AliYunPlayerUtil {
      * 改变亮度，此处只有改变亮度的方法 没有页面和手势的代码
      * brightness取值范围 0到100
      */
-    //已测试
     public void setWindowBrightness(int brightness, Activity activity) {
         Window window = activity.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -143,22 +320,6 @@ public class AliYunPlayerUtil {
     }
 
     /**
-     * 开始下载，该方法包含了一个回调，调用该回调，可以对
-     * 下载进度进行监听
-     *
-     * @param mContext
-     * @param downloadDir
-     * @param listener
-     */
-    public void startDownLoadWithListener(Context mContext, String downloadDir, AliMediaDownloader.OnProgressListener listener) {
-        final AliMediaDownloader jniDownloader = AliDownloaderFactory.create(mContext);
-        jniDownloader.setSaveDir(downloadDir);
-        jniDownloader.start();
-        if (listener != null)
-            jniDownloader.setOnProgressListener(listener);
-    }
-
-    /**
      * 文件加密
      *
      * @param context
@@ -189,15 +350,6 @@ public class AliYunPlayerUtil {
     public int deleteFile(String saveDir, String vid, String format, int index) {
         int ret = AliDownloaderFactory.deleteFile(saveDir, vid, format, index);
         return ret;
-    }
-
-    /**
-     * 删除文件  这个是删除正在下载的文件
-     * @param downloader
-     */
-    public void delectFile(AliMediaDownloader downloader) {
-        if (null != downloader)
-            downloader.deleteFile();
     }
 
 
@@ -251,7 +403,7 @@ public class AliYunPlayerUtil {
     /**
      * 切换播放资源(也就是播放下一集),播放的时候需要当前的播放器对象、和当前的
      * 某一集的对象，这个对象是播放列表资源里面的具体的某一个 可以在一个list（播放资源列表）里面
-     * 通过position去获取，如果传的videoListItem和当前播放的一样，就是重播
+     * 通过position去获取，如果传的videoListItem和当前播放的一直，则会重播
      */
     public void changePlayVidSource(AliyunVodPlayerView mAliyunVodPlayerView, @NonNull AlivcVideoInfo.DataBean.VideoListBean videoListItem) {
         if (mAliyunVodPlayerView != null) {

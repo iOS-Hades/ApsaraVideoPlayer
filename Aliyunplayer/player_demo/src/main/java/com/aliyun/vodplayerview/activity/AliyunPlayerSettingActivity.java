@@ -92,6 +92,11 @@ public class AliyunPlayerSettingActivity extends BaseActivity implements View.On
         initCacheDir();
         initDataBase();
         initGlobalConfig();
+        finish();
+        //开始播放
+        getCurrentPlayType();
+        checkedIsNeedNormalData();
+
     }
 
     /**
@@ -401,10 +406,12 @@ public class AliyunPlayerSettingActivity extends BaseActivity implements View.On
         }
     }
 
+
+
     /**
      * 检查是否需要默认源
      */
-    private void checkedIsNeedNormalData() {
+    public void checkedIsNeedNormalData() {
         mLoadingProgressBar.setVisibility(View.VISIBLE);
         GetAuthInformation getAuthInformation = new GetAuthInformation();//转圈
         if (GlobalPlayerConfig.mCurrentPlayType == GlobalPlayerConfig.PLAYTYPE.URL && !GlobalPlayerConfig.URL_TYPE_CHECKED) {
