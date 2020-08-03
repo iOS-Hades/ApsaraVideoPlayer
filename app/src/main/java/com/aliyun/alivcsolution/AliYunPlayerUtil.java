@@ -1,11 +1,16 @@
 package com.aliyun.alivcsolution;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
+import android.app.LocalActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.aliyun.downloader.AliDownloaderFactory;
 import com.aliyun.downloader.AliMediaDownloader;
@@ -39,7 +44,7 @@ import okhttp3.Request;
  * Created by LiuHaiMing
  * on 2020/7/26.
  */
-public class AliYunPlayerUtil {
+public class AliYunPlayerUtil extends ActivityGroup {
     private Context context;
 
     public AliYunPlayerUtil(Context context) {
@@ -48,7 +53,21 @@ public class AliYunPlayerUtil {
 
     public AliPlayer initPlayer() {
         AliPlayer mAliPlayer = AliPlayerFactory.createAliPlayer(context.getApplicationContext());
+
         return mAliPlayer;
+    }
+
+    public void startPlay(Activity activity){
+//        AliPlayer player=initPlayer();
+
+    }
+
+    public View changeActivity2View( Activity activity){
+        LocalActivityManager local= getLocalActivityManager();
+        Intent intent1=new Intent(this,activity.getClass());
+        View mDiscoverView = local.startActivity("myactivity", intent1)
+                .getDecorView();
+        return mDiscoverView;
     }
 
     /**
